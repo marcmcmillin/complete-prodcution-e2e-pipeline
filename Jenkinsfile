@@ -7,7 +7,7 @@ pipeline{
         maven 'Maven3'
     }
     environment {
-        APP_NAME = "complete-prodcution-e2e-pipeline"
+        APP_NAME = "complete-production-e2e-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "Chaos662"
         DOCKER_PASS = 'dockerhub'
@@ -54,17 +54,17 @@ pipeline{
             }
         }
 
-        {
+        
         stage("Quality Gate"){
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token') {
                     }           
                 }
             }
         }
             
-        {
+        
         stage("Build & Push Docker Image"){ 
             steps {
                 script {
@@ -82,6 +82,6 @@ pipeline{
                 }
             }
         }
-    }
+    
     }
 }
