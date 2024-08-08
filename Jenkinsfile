@@ -25,7 +25,7 @@ pipeline{
     
         stage("Checkout from SCM"){
             steps {
-                git branch: 'main', credentialsId: 'github', url: "https://github.com/marcmcmillin/complete-prodcution-e2e-pipeline"
+                git branch: 'main', credentialsId: 'github', url: "https://github.com/marcmcmillin/complete-prodcution-e2e-pipeline.git"
             }
 
         }
@@ -89,5 +89,25 @@ pipeline{
                 }
             }
         } 
+    }
+    post {
+        always {
+            script {
+                def status = currentBuild.result ?: 'UNKNOWN'
+                def color
+                switch (status) {
+                    case 'SUCCESS':
+                        color = 'good'
+                        break
+                    case 'FAILURE':
+                        color = 'danger'
+                        break
+                    default:
+                        color = 'warning'
+                }
+                
+                slackSend (channel: "#jenkins", message: "Update Deployment ${status.toLowerCase()} for ${env.JOB_NAME} ${env.BUILD_NUMBER} - ${env.BUILD_URL}", iconEmoji: ':jenkins:', color: color)
+            }
+        }
     }
 }
