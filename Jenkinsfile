@@ -82,10 +82,10 @@ pipeline{
             }
         }
 
-        stage("Trivy Scan") {
+       stage("Trivy Scan") {
             steps {
                 script {
-		            sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image chaos662/complete-prodcution-e2e-pipeline:1.0.0-119 --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
+		            sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image chaos662/complete-production-e2e-pipeline:1.0.0-119 --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
                 }
             }
         }
